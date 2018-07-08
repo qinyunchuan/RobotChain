@@ -208,7 +208,7 @@ resultqueue = Queue()
 def backgroundProcess(command,result):
     while 1:
         comm = command.get()
-        if comm == "/chain":
+        if comm['command'] == "/chain":
             response = {
                 'chain': blockchain.chain,
                 'length': len(blockchain.chain),
@@ -263,7 +263,8 @@ def new_transaction():
 
 @app.route('/chain', methods=['GET'])
 def full_chain():
-    commandqueue.put("/chain")
+    command = {'command':'/chain'}
+    commandqueue.put(command)
     response = resultqueue.get()
     return jsonify(response), 200
 
