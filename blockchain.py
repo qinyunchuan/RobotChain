@@ -261,12 +261,11 @@ def backgroundProcess(command,result):
             # Check that the required fields are in the POST'ed data
             required = ['sender', 'recipient', 'amount']
             if not all(k in values for k in required):
-                return 'Missing values', 400
-            else
+                response = {'message': 'Missing values'}
+            else:
                 # Create a new Transaction
                 index = blockchain.new_transaction(values['sender'], values['recipient'], values['amount'])
-
-            response = {'message': f'Transaction will be added to Block {index}'}
+                response = {'message': f'Transaction will be added to Block {index}'}
             result.put(response)
             print("haha")
 
@@ -283,7 +282,7 @@ def mine():
 @app.route('/transactions/new', methods=['POST'])
 def new_transaction():
     values = request.get_json()
-    command = {'command': '/nodes/register',
+    command = {'command': '/transactions/new',
                'values': values}
     commandqueue.put(command)
     response = resultqueue.get()
