@@ -208,7 +208,7 @@ resultqueue = Queue()
 def backgroundProcess(command,result):
     while 1:
         comm = command.get()
-        if comm == ¡°/chain":
+        if comm == "/chain":
             response = {
                 'chain': blockchain.chain,
                 'length': len(blockchain.chain),
