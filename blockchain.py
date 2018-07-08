@@ -205,15 +205,16 @@ from multiprocessing import Process,Queue
 commandqueue = Queue()
 resultqueue = Queue()
 #Define a new process to do blockchain activity
-def chainstuff(command,result):
+def backgroundProcess(command,result):
     while 1:
-        command.get()
-        response = {
-            'chain': blockchain.chain,
-            'length': len(blockchain.chain),
-        }
-        result.put(response)
-        print("haha")
+        comm = command.get()
+        if comm == ¡°/chain":
+            response = {
+                'chain': blockchain.chain,
+                'length': len(blockchain.chain),
+            }
+            result.put(response)
+            print("haha")
 
 
 @app.route('/mine', methods=['GET'])
@@ -262,7 +263,7 @@ def new_transaction():
 
 @app.route('/chain', methods=['GET'])
 def full_chain():
-    commandqueue.put("1")
+    commandqueue.put("/chain")
     response = resultqueue.get()
     return jsonify(response), 200
 
@@ -306,7 +307,7 @@ def consensus():
 if __name__ == '__main__':
     from argparse import ArgumentParser
     
-    p = Process(target=chainstuff,args=(commandqueue,resultqueue))
+    p = Process(target=backgroundProcess, args=(commandqueue,resultqueue))
     p.start()
 
     parser = ArgumentParser()
