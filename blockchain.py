@@ -215,6 +215,19 @@ def backgroundProcess(command,result):
             }
             result.put(response)
             print("haha")
+        elif comm['command'] =="/nodes/register":
+            values = comm['value']
+            nodes = values.get('nodes')
+            if nodes is None:
+                return "Error: Please supply a valid list of nodes", 400
+
+            for node in nodes:
+                blockchain.register_node(node)
+
+            response = {
+                'message': 'New nodes have been added',
+                'total_nodes': list(blockchain.nodes),
+            }
 
 
 @app.route('/mine', methods=['GET'])
@@ -272,18 +285,11 @@ def full_chain():
 @app.route('/nodes/register', methods=['POST'])
 def register_nodes():
     values = request.get_json()
+    command = {'command':'/nodes/register',
+               'values':values}
+    commandqueue.put(command)
 
-    nodes = values.get('nodes')
-    if nodes is None:
-        return "Error: Please supply a valid list of nodes", 400
-
-    for node in nodes:
-        blockchain.register_node(node)
-
-    response = {
-        'message': 'New nodes have been added',
-        'total_nodes': list(blockchain.nodes),
-    }
+    response = resultqueue.get()
     return jsonify(response), 201
 
 
