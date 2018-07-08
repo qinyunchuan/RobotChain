@@ -200,9 +200,20 @@ node_identifier = str(uuid4()).replace('-', '')
 # Instantiate the Blockchain
 blockchain = Blockchain()
 
+from multiprocessing import Process,Queue
+
+commandqueue = Queue()
+resultqueue = Queue()
 #Define a new process to do blockchain activity
-def chainstuff():
-    print("haha")
+def chainstuff(command,result):
+    while 1:
+        command.get()
+        response = {
+            'chain': blockchain.chain,
+            'length': len(blockchain.chain),
+        }
+        result.put(response)
+        print("haha")
 
 
 @app.route('/mine', methods=['GET'])
@@ -251,10 +262,8 @@ def new_transaction():
 
 @app.route('/chain', methods=['GET'])
 def full_chain():
-    response = {
-        'chain': blockchain.chain,
-        'length': len(blockchain.chain),
-    }
+    commandqueue.put("1")
+    response = resultqueue.get()
     return jsonify(response), 200
 
 
@@ -296,9 +305,8 @@ def consensus():
 
 if __name__ == '__main__':
     from argparse import ArgumentParser
-    from multiprocessing import Process 
     
-    p = Process(target=chainstuff)
+    p = Process(target=chainstuff,args=(commandqueue,resultqueue))
     p.start()
 
     parser = ArgumentParser()
