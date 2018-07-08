@@ -1,12 +1,11 @@
 import hashlib
 import json
-from time import time
+import time
 from urllib.parse import urlparse
 from uuid import uuid4
 
 import requests
 from flask import Flask, jsonify, request
-
 
 class Blockchain:
     def __init__(self):
@@ -109,7 +108,7 @@ class Blockchain:
 
         block = {
             'index': len(self.chain) + 1,
-            'timestamp': time(),
+            'timestamp': time.time(),
             'transactions': self.current_transactions,
             'proof': proof,
             'previous_hash': previous_hash or self.hash(self.chain[-1]),
@@ -224,7 +223,7 @@ def backgroundProcess(command,result):
                 # Forge the new Block by adding it to the chain
                 previous_hash = blockchain.hash(last_block)
                 blockchain.new_block(proof, previous_hash)
-                time.sleep(1)
+                time.sleep( 1 )
                 continue
 
         comm = command.get()
