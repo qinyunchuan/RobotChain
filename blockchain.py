@@ -262,9 +262,9 @@ def backgroundProcess(command,result):
             required = ['sender', 'recipient', 'amount']
             if not all(k in values for k in required):
                 return 'Missing values', 400
-
-            # Create a new Transaction
-            index = blockchain.new_transaction(values['sender'], values['recipient'], values['amount'])
+            else
+                # Create a new Transaction
+                index = blockchain.new_transaction(values['sender'], values['recipient'], values['amount'])
 
             response = {'message': f'Transaction will be added to Block {index}'}
             result.put(response)
