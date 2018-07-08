@@ -216,7 +216,7 @@ def backgroundProcess(command,result):
             result.put(response)
             print("haha")
         elif comm['command'] =="/nodes/register":
-            values = comm['value']
+            values = comm['values']
             nodes = values.get('nodes')
             if nodes is None:
                 return "Error: Please supply a valid list of nodes", 400
@@ -228,6 +228,8 @@ def backgroundProcess(command,result):
                 'message': 'New nodes have been added',
                 'total_nodes': list(blockchain.nodes),
             }
+            result.put(response)
+            print("haha")
 
 
 @app.route('/mine', methods=['GET'])
