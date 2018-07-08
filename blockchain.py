@@ -275,7 +275,7 @@ def backgroundProcess(command,result):
 def mine():
     command = {'command': '/mine'}
     commandqueue.put(command)
-    result.put(response)
+    response = resultqueue.get()
     return jsonify(response), 200
 
 
