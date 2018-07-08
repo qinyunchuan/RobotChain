@@ -200,6 +200,10 @@ node_identifier = str(uuid4()).replace('-', '')
 # Instantiate the Blockchain
 blockchain = Blockchain()
 
+#Define a new process to do blockchain activity
+def chainstuff():
+    print "haha"
+
 
 @app.route('/mine', methods=['GET'])
 def mine():
@@ -292,6 +296,10 @@ def consensus():
 
 if __name__ == '__main__':
     from argparse import ArgumentParser
+    from multiprocessing import Process 
+    
+    p = Process(target=chainstuff)
+    p.start()
 
     parser = ArgumentParser()
     parser.add_argument('-p', '--port', default=5000, type=int, help='port to listen on')
