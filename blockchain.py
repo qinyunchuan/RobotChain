@@ -199,8 +199,13 @@ node_identifier = str(uuid4()).replace('-', '')
 # Instantiate the Blockchain
 blockchain = Blockchain()
 
-from multiprocessing import Process,Queue
 
+def resolve(chain):
+    chain.resolve_conflicts()
+
+
+from multiprocessing import Process,Queue
+import threading
 commandqueue = Queue()
 resultqueue = Queue()
 #Define a new process to do blockchain activity
@@ -224,7 +229,8 @@ def backgroundProcess(command,result):
                 previous_hash = blockchain.hash(last_block)
                 blockchain.new_block(proof, previous_hash)
             else:
-                blockchain.resolve_conflicts()
+                t = threading.Thread(target=resolve(blockchain))
+                t.start()
             time.sleep(1)
             continue
 
