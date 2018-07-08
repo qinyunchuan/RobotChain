@@ -202,7 +202,7 @@ blockchain = Blockchain()
 
 #Define a new process to do blockchain activity
 def chainstuff():
-    print "haha"
+    print("haha")
 
 
 @app.route('/mine', methods=['GET'])
