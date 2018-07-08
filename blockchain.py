@@ -223,8 +223,11 @@ def backgroundProcess(command,result):
                 # Forge the new Block by adding it to the chain
                 previous_hash = blockchain.hash(last_block)
                 blockchain.new_block(proof, previous_hash)
-                time.sleep( 1 )
-                continue
+            else:
+                blockchain.resolve_conflicts()
+            time.sleep(1)
+            continue
+
 
         comm = command.get()
         if comm['command'] == "/chain":
