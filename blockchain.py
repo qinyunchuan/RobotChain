@@ -256,7 +256,7 @@ def backgroundProcess(command,result):
             }
             result.put(response)
             print("haha")
-        elif comm['command'] =="'/transactions/new":
+        elif comm['command'] =="/transactions/new":
             values = comm['values']
             # Check that the required fields are in the POST'ed data
             required = ['sender', 'recipient', 'amount']
@@ -286,7 +286,7 @@ def new_transaction():
     command = {'command': '/nodes/register',
                'values': values}
     commandqueue.put(command)
-
+    response = resultqueue.get()
     return jsonify(response), 201
 
 
