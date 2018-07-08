@@ -229,7 +229,7 @@ def backgroundProcess(command,result):
                 previous_hash = blockchain.hash(last_block)
                 blockchain.new_block(proof, previous_hash)
             else:
-                t = threading.Thread(target=resolve(blockchain))
+                t = threading.Thread(target=resolve,args=(blockchain,))
                 t.start()
             time.sleep(1)
             continue
