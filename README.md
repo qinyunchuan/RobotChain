@@ -26,3 +26,5 @@ $ pipenv install
     * `$ pipenv run python blockchain.py --port 5002`
     
 
+## Architecture
+![Image text](https://github.com/qinyunchuan/RobotChain/blob/master/image/robotchain.png)
