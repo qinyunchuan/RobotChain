@@ -28,12 +28,29 @@ $ pipenv install
 
 ## Architecture
 ![Image text](https://github.com/qinyunchuan/RobotChain/blob/master/image/robotchain.png)
+Key Assignment:
+```
 Owner Key:PKo,SKo
 Operator Party Key:PKp,SKp
 Manufacture Key: PKm,SKm
 Robot Key:PKr,SKr
+```
+Right Map
+```
+{
+"Robot":"PKr",
+"Role":["Owner","Administrator","Operator"],
+"Owner":["CMD1","CMD2","CMD3"]，
+"Administrator"：["CMD1","CMD2"]，
+"Operator"：["CMD1"]，
+}
+```
 
-Owner->Robot( Owner->Operator->Ledger->Operator->Robot ）
+Command Flow
+```
+Owner->Robot( Owner->Operator->（Check Ledger）->Ledger->Operator->Robot ）
 Sign: SKo(PKp,PKr,CMD) //CMD is public available
+
 Robot->Owner( Robot->Operator->Ledger->Operator->Owner ）
 Sign:SKr(PKp,PKo,Result)
+```
