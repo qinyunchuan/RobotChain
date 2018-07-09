@@ -344,15 +344,15 @@ def register_nodes():
 
 from Crypto.PublicKey import RSA
 @app.route('/generate', methods=['GET'])
-def full_chain():
+def generate():
     key = RSA.generate(2048)
     pk = key.exportKey(pkcs=1)
     sk = key.exportKey(pkcs=8)
     id = hashlib.sha256(pk).hexdigest()
     response = {
         'id':id,
-        'pk':pk,
-        'sk':sk
+        'pk':pk.decode(),
+        'sk':sk.decode()
     }
     return jsonify(response), 200
 
