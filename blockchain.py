@@ -342,6 +342,19 @@ def register_nodes():
     response = resultqueue.get()
     return jsonify(response), 201
 
+from Crypto.PublicKey import RSA
+@app.route('/generate', methods=['GET'])
+def full_chain():
+    key = RSA.generate(2048)
+    pk = key.exportKey(pkcs=1)
+    sk = key.exportKey(pkcs=8)
+    id = hashlib.sha256(pk).hexdigest()
+    response = {
+        'id':id,
+        'pk':pk,
+        'sk':sk
+    }
+    return jsonify(response), 200
 
 @app.route('/nodes/resolve', methods=['GET'])
 def consensus():
