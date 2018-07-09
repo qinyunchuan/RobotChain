@@ -28,3 +28,12 @@ $ pipenv install
 
 ## Architecture
 ![Image text](https://github.com/qinyunchuan/RobotChain/blob/master/image/robotchain.png)
+Owner Key:PKo,SKo
+Operator Party Key:PKp,SKp
+Manufacture Key: PKm,SKm
+Robot Key:PKr,SKr
+
+Owner->Robot( Owner->Operator->Ledger->Operator->Robot ）
+Sign: SKo(PKp,PKr,CMD) //CMD is public available
+Robot->Owner( Robot->Operator->Ledger->Operator->Owner ）
+Sign:SKr(PKp,PKo,Result)
