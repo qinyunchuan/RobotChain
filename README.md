@@ -49,8 +49,16 @@ Right Map
 Command Flow
 ```
 Owner->Robot( Owner->Operator->（Check Ledger）->Ledger->Operator->Robot ）
-Sign: SKo(PKp,PKr,CMD) //CMD is public available
+Sign: SKo(PKp,PKr,CMD) //CMD is public unavailable
 
 Robot->Owner( Robot->Operator->Ledger->Operator->Owner ）
 Sign:SKr(PKp,PKo,Result)
+```
+
+Ledger Format:
+```All Parties should log operations for audit
+ 'sender': sender,
+ 'recipient': recipient,
+ 'cmd': Hash(SKo(PKp,PKr,CMD)),
+ 'amount':number  #Add Robot will decrease the sender's amount
 ```

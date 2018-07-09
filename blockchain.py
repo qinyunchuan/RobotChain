@@ -120,20 +120,28 @@ class Blockchain:
         self.chain.append(block)
         return block
 
-    def new_transaction(self, sender, recipient, amount):
+    def new_transaction(self, sender, recipient, cmd, amount):
         """
         Creates a new transaction to go into the next mined Block
 
         :param sender: Address of the Sender
         :param recipient: Address of the Recipient
-        :param amount: Amount
+        :param cmd: command
+        :param amount: Bonus
         :return: The index of the Block that will hold this transaction
         """
-        self.current_transactions.append({
-            'sender': sender,
-            'recipient': recipient,
-            'amount': amount,
-        })
+        if amount:
+            self.current_transactions.append({
+                'sender': sender,
+                'recipient': recipient,
+                'amount': hashlib.sha256(cmd).hexdigest(),
+            })
+        else:
+            self.current_transactions.append({
+                'sender': sender,
+                'recipient': recipient,
+                'amount':amount,
+            })
 
         return self.last_block['index'] + 1
 
@@ -287,12 +295,12 @@ def backgroundProcess(command,result):
         elif comm['command'] =="/transactions/new":
             values = comm['values']
             # Check that the required fields are in the POST'ed data
-            required = ['sender', 'recipient', 'amount']
+            required = ['sender', 'recipient', 'cmd']
             if not all(k in values for k in required):
                 response = {'message': 'Missing values'}
             else:
                 # Create a new Transaction
-                index = blockchain.new_transaction(values['sender'], values['recipient'], values['amount'])
+                index = blockchain.new_transaction(values['sender'], values['recipient'], values['cmd'])
                 response = {'message': f'Transaction will be added to Block {index}'}
             result.put(response)
             print("haha")
